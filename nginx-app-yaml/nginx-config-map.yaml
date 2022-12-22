@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-http-cm
+  namespace: nginx-app
+data:
+  # key: value
+  # file: |
+  #   content
+  # ---
+  index.html: |
+    <!doctype html>
+    <html lang="en">
+        <head>
+          <meta charset="utf-8">
+          <title>Docker Nginx</title>
+      </head>
+      <body>
+        <h2>This is the Index Page!</h2>
+      </body>
+    </html>

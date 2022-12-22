@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sb-dep
+  namespace: app-be
+spec:
+  selector:
+    matchLabels:
+      run: sb-api
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        run: sb-api
+    spec:
+      containers:
+      - name: sb-nodb
+        image: jchatter123/spring-boot-db:latest
+        imagePullPolicy: Always
+        ports:
+        - name: web
+          containerPort: 80

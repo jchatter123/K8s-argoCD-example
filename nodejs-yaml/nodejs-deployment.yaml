@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: node-js-app-dep
+  namespace: app-fe
+spec:
+  selector:
+    matchLabels:
+      run: node-js-fe
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        run: node-js-fe
+    spec:
+      containers:
+      - name: node-container
+        image: jchatter123/my-node-app:latest
+        imagePullPolicy: Always
+        ports:
+        - name: web
+          containerPort: 8080
+        volumeMounts:
+        - mountPath: "/usr/src/app/data/"
+          name: nodejs-storage
+      volumes:
+      - name: nodejs-storage
+        persistentVolumeClaim:
+          claimName: nodejs-claim

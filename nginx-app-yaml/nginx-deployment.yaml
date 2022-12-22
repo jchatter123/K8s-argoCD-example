@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-app
+  namespace: nginx-app
+spec:
+  selector:
+    matchLabels:
+      run: nginx-app
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        run: nginx-app
+    spec:
+      containers:
+      - name: hello-world-container
+        image: jchatter123/nginx-app:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - name: web
+          containerPort: 80
+        - name: secureweb
+          containerPort: 443
+        volumeMounts:
+        - name: nginx-http-cm
+          mountPath: /usr/share/nginx/html
+        - name: nginx-http-cm-config
+          mountPath: /etc/nginx
+        - name: nginx-http-cm-test
+          mountPath: /usr/share/nginx/html/test
+        - name: nginx-https-secret
+          mountPath: /etc/nginx/ssl
+          readOnly: true
+      volumes:
+      - name: nginx-http-cm
+        configMap:
+          name: nginx-http-cm
+      - name: nginx-http-cm-config
+        configMap:
+          name: nginx-http-cm-config
+      - name: nginx-http-cm-test
+        configMap:
+          name: nginx-http-cm-test
+      - name: nginx-https-secret
+        configMap:
+          name: nginx-https-secret

@@ -1,0 +1,44 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-http-cm-config
+  namespace: nginx-app
+data:
+  # key: value
+  # file: |
+  #   content
+  # ---
+  nginx.conf: |
+    user nginx;
+    worker_processes 1;
+    events {
+      worker_connections  10240;
+    }
+    http {
+      server {
+        root   /usr/share/nginx/html;
+        listen       80;
+        server_name  _;
+        location /test {
+          index  test.html test.htm;
+        }
+        location / {
+          index  index.html index.htm;
+        }
+      }
+      server {
+        root   /usr/share/nginx/html;
+        listen       443 ssl;
+        server_name  myapp.com;
+        ssl_certificate        /etc/nginx/ssl/server.crt;
+        ssl_certificate_key    /etc/nginx/ssl/server.key;
+        ssl_protocols TLSv1 TLSv1.1 TLSv1.2 TLSv1.3;
+        ssl_ciphers TLS-CHACHA20-POLY1305-SHA256:TLS-AES-256-GCM-SHA384:TLS-AES-128-GCM-SHA256:HIGH:!aNULL:!MD5;
+        location /test {
+          index  test.html test.htm;
+        }
+        location / {
+          index  index.html index.htm;
+        }
+      }
+    }
