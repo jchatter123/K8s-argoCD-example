@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: node-js-app-dep
+  name: node-js-ap-dep
   namespace: app-fe
 spec:
   selector:
